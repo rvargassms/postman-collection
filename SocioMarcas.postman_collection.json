@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "04d6bb7a-e709-4e9a-b25d-e96590d75238",
+		"_postman_id": "dad0844d-275c-427d-be93-26b52e0a7244",
 		"name": "SocioMarcas",
 		"description": "#### Identificacion de marcas de socios:\n* celiaquia\n* internacion\n* socioVip\n* contactoTelemarketing\n* credencialDigital\n* atencionDomiciliaria\n* combiancion marcas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -10,7 +10,7 @@
 			"name": "celiaquia",
 			"item": [
 				{
-					"name": "celiaquia",
+					"name": "tc0001-celiaquia",
 					"event": [
 						{
 							"listen": "test",
@@ -22,9 +22,9 @@
 									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
 									"\r",
 									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1002425411\";\r",
-									"tests[\"Verificar marcaFechaAlta\"] = marca[\"fechaAlta\"] == \"2019-06-21T00:00:00-03:00\";\r",
-									"tests[\"Verificar marcaVigenciaDesde\"] = marca[\"vigenciaDesde\"] ==  \"2019-06-21T00:00:00-03:00\";\r",
-									"tests[\"Verificar marcaIc\"] = marca[\"ic\"] == \"1002425411\";\r",
+									"tests[\"Verificar marcaFechaAlta\"] = marca.fechaAlta == \"2019-06-21T00:00:00-03:00\";\r",
+									"tests[\"Verificar marcaVigenciaDesde\"] = marca.vigenciaDesde ==  \"2019-06-21T00:00:00-03:00\";\r",
+									"tests[\"Verificar marcaIc\"] = marca.ic == \"1002425411\";\r",
 									"\r",
 									""
 								],
@@ -57,13 +57,133 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic={{value}}&contrato= &orden= &appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic=1002425411&contrato= &orden=60&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
 							],
 							"path": [
 								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "celiaquia"
+								},
+								{
+									"key": "ic",
+									"value": "1002425411"
+								},
+								{
+									"key": "contrato",
+									"value": " "
+								},
+								{
+									"key": "orden",
+									"value": "60"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0002-celiaquia-sin-marca",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1002245123\";\r",
+									"tests[\"Verificar marcaFechaAlta\"] = marca.mensaje == \"El socio no posee informacion para esta marca\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic={{value}}&contrato=232213001&orden=60&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"services",
+								"SocioMarcas",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "celiaquia"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "232213001"
+								},
+								{
+									"key": "orden",
+									"value": "60"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0003-celiaquia-invalid-ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1500000911\";\r",
+									"tests[\"Verificar marcaFechaAlta\"] = marca.mensaje == \"El socio no posee informacion para esta marca\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic={{value}}&contrato= &orden= &appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"services",
+								"SocioMarcas",
 								"marcas"
 							],
 							"query": [
@@ -93,67 +213,7 @@
 					"response": []
 				},
 				{
-					"name": "celiaquia - sin marca",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
-									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
-									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1500000911\";\r",
-									"tests[\"Verificar marcaFechaAlta\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic=1500000911&contrato= &orden= &appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"services",
-								"SocioMarcas",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "celiaquia"
-								},
-								{
-									"key": "ic",
-									"value": "1500000911"
-								},
-								{
-									"key": "contrato",
-									"value": " "
-								},
-								{
-									"key": "orden",
-									"value": " "
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "celiaquia - faltan datos",
+					"name": "tc0004-celiaquia-invalid-contrato",
 					"event": [
 						{
 							"listen": "test",
@@ -208,15 +268,9 @@
 						}
 					},
 					"response": []
-				}
-			],
-			"description": "El servicio tiene por objetivo poder empadronar sujetos que presentan la condición\nde Celiacos, de modo que cuando sean identificados nuevamente en el Portal de Atención;\nse muestre un indicador en el Widget de Características.\n\n**La condición de Celiacos queda asociada al IC del sujeto empadronado, por lo cual seguirá siendo visible por más que el sujeto vaya migrando de contratos.\nSolo se pueden empadronar sujetos identificados en Portal que cuenten con un contrato\nvigente.**"
-		},
-		{
-			"name": "internacion",
-			"item": [
+				},
 				{
-					"name": "internacion",
+					"name": "tc0005-celiaquia-faltan-datos",
 					"event": [
 						{
 							"listen": "test",
@@ -225,9 +279,320 @@
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1500000911\";\r",
+									"tests[\"Verificar marcaFechaAlta\"] = marca.mensaje == \"El socio no posee informacion para esta marca\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic={{value}}&contrato= &orden= &appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"services",
+								"SocioMarcas",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "celiaquia"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": " "
+								},
+								{
+									"key": "orden",
+									"value": " "
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0006-celiaquia-faltan-datos-ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&contrato={{value}}&orden=&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "celiaquia"
+								},
+								{
+									"key": "ic",
+									"value": "1500000911",
+									"disabled": true
+								},
+								{
+									"key": "contrato",
+									"value": "{{value}}"
+								},
+								{
+									"key": "orden",
+									"value": ""
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0007-celiaquia-faltan-datos-contrato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic={{value}}&orden=&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "celiaquia"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "604029275",
+									"disabled": true
+								},
+								{
+									"key": "orden",
+									"value": ""
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "El servicio tiene por objetivo poder empadronar sujetos que presentan la condición\nde Celiacos, de modo que cuando sean identificados nuevamente en el Portal de Atención;\nse muestre un indicador en el Widget de Características.\n\n**La condición de Celiacos queda asociada al IC del sujeto empadronado, por lo cual seguirá siendo visible por más que el sujeto vaya migrando de contratos.\nSolo se pueden empadronar sujetos identificados en Portal que cuenten con un contrato\nvigente.**"
+		},
+		{
+			"name": "internacion",
+			"item": [
+				{
+					"name": "tc0001-internacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
 									"var marca = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
 									"\r",
 									"//tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"23221300104\";//no valida ingreso de ic\r",
+									"tests[\"Verificar marcaInternado\"] = marca[\"internado\"] == \"Si\";\r",
+									"tests[\"Verificar marcaFechaInicioInternacion\"] = marca[\"fechaInicioInternacion\"] == \"2020-05-12T03:00:00.000Z\";\r",
+									"tests[\"Verificar marcaTipoCaso\"] = marca[\"tipoCaso\"] == \"ID\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&ic=1002245123&contrato=232213001&orden=04&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "internacion"
+								},
+								{
+									"key": "ic",
+									"value": "1002245123"
+								},
+								{
+									"key": "contrato",
+									"value": "232213001"
+								},
+								{
+									"key": "orden",
+									"value": "04"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0002-internacion-sin marca",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"2000667588\";\r",
+									"tests[\"Verificar mensaje\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=internacion&ic={{value}}&contrato=614289032&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"services",
+								"SocioMarcas",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "internacion"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "614289032"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0003-internacion-invalid-ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"23221aaa104\";//devuelve datos\r",
 									"tests[\"Verificar marcaInternado\"] = marca[\"internado\"] == \"Si\";\r",
 									"tests[\"Verificar marcaFechaInicioInternacion\"] = marca[\"fechaInicioInternacion\"] == \"2020-05-12T03:00:00.000Z\";\r",
 									"tests[\"Verificar marcaTipoCaso\"] = marca[\"tipoCaso\"] == \"ID\";\r",
@@ -277,139 +642,22 @@
 					"response": []
 				},
 				{
-					"name": "internacion-sin marca",
+					"name": "tc0004-internacion-invalid-contrato",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
 									"var marca = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
 									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"2000667588\";\r",
-									"tests[\"Verificar mensaje\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=internacion&ic=2000667588&contrato=614289032&orden=01&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"services",
-								"SocioMarcas",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "internacion"
-								},
-								{
-									"key": "ic",
-									"value": "2000667588"
-								},
-								{
-									"key": "contrato",
-									"value": "614289032"
-								},
-								{
-									"key": "orden",
-									"value": "01"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "internacion-invalid-ic",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
-									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
-									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"23221aaa104\";//devuelve datos\r",
-									"tests[\"Verificar marcaInternado\"] = marca[\"internado\"] == \"Si\";\r",
-									"tests[\"Verificar marcaFechaInicioInternacion\"] = marca[\"fechaInicioInternacion\"] == \"2020-05-12T03:00:00.000Z\";\r",
-									"tests[\"Verificar marcaTipoCaso\"] = marca[\"tipoCaso\"] == \"ID\";\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&ic=23221aaa104&contrato=232213001&orden=04&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "internacion"
-								},
-								{
-									"key": "ic",
-									"value": "23221aaa104"
-								},
-								{
-									"key": "contrato",
-									"value": "232213001"
-								},
-								{
-									"key": "orden",
-									"value": "04"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "internacion-invalid-contrato",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
-									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
-									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"23221300104\";\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1002245123\";\r",
 									"tests[\"Verificar marcaInternado\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
 									""
 								],
@@ -421,7 +669,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&ic=23221300104&contrato=23221aaa104&orden=04&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&ic=1002245123&contrato={{value}}&orden=04&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -437,11 +685,11 @@
 								},
 								{
 									"key": "ic",
-									"value": "23221300104"
+									"value": "1002245123"
 								},
 								{
 									"key": "contrato",
-									"value": "23221aaa104"
+									"value": "{{value}}"
 								},
 								{
 									"key": "orden",
@@ -457,12 +705,16 @@
 					"response": []
 				},
 				{
-					"name": "internacion-faltan-datos",
+					"name": "tc0005-internacion-faltan-datos",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(500);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -512,6 +764,126 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "tc0006-internacion-faltan-datos-Ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&contrato=1002245123&orden=04&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "internacion"
+								},
+								{
+									"key": "ic",
+									"value": "23221300104",
+									"disabled": true
+								},
+								{
+									"key": "contrato",
+									"value": "1002245123"
+								},
+								{
+									"key": "orden",
+									"value": "04"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0007-internacion-faltan-datos-contrato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&ic={{value}}&orden=04&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "internacion"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "23221aaa104",
+									"disabled": true
+								},
+								{
+									"key": "orden",
+									"value": "04"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -539,21 +911,23 @@
 			"name": "socioVip",
 			"item": [
 				{
-					"name": "socioVip",
+					"name": "tc0001-socioVip",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"\r",
 									"var jsonObject = pm.response.json();\r",
-									"\r",
 									"\r",
 									"var marca = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
 									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1002425411\";\r",
-									"tests[\"Verificar esVip\"] = marca[\"esVip\"] == true;\r",
+									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"60925484601\";\r",
+									"tests[\"Verificar esVip\"] = marca.esVip == true;\r",
 									""
 								],
 								"type": "text/javascript"
@@ -564,7 +938,7 @@
 							"script": {
 								"exec": [
 									"const requestEsVip = {\r",
-									"\turl: 'http://desaesb.osde.ar:8080/services/SocioMarcas/marcas?marcas=socioVip&ic=1002425411&contrato=607854463&orden=01&appName=SOPORTE', \r",
+									"\turl: 'http://desaesb.osde.ar:8080/services/SocioMarcas/marcas?marcas=socioVip&ic=60925484601&contrato=609254846&orden=01&appName=SOPORTE', \r",
 									"    method: 'GET',\r",
 									"\theader: 'Content-Type: application/jsson;charset=UTF-8',\r",
 									"\tbody: {\r",
@@ -605,7 +979,111 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic={{value}}&contrato=607854463&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic=1000531253&contrato=609254846&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "socioVip"
+								},
+								{
+									"key": "ic",
+									"value": "1000531253"
+								},
+								{
+									"key": "contrato",
+									"value": "609254846"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0002-socioVip-secundario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"60925484601\";\r",
+									"tests[\"Verificar esVip\"] = marca.esVip == true;\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const requestEsVip = {\r",
+									"\turl: 'http://desaesb.osde.ar:8080/services/SocioMarcas/marcas?marcas=socioVip&ic=60925484601&contrato=609254846&orden=01&appName=SOPORTE', \r",
+									"    method: 'GET',\r",
+									"\theader: 'Content-Type: application/jsson;charset=UTF-8',\r",
+									"\tbody: {\r",
+									"\t\tmode: 'Raw',\r",
+									"\t\tRaw: JSON.stringify([{\"ic\":\"10024254sdsds\",\"marcas\":[{\"socioVip\":{\"esVip\":true}}]}])\r",
+									"\t}\r",
+									"};\r",
+									"\r",
+									"console.log(requestEsVip);\r",
+									"\r",
+									"pm.sendRequest(requestEsVip, function(err, res){\r",
+									"\tconsole.log(\"data: \", err ? err: res.json());\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic={{value}}&contrato=608347484&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -625,7 +1103,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": "607854463"
+									"value": "608347484"
 								},
 								{
 									"key": "orden",
@@ -641,12 +1119,16 @@
 					"response": []
 				},
 				{
-					"name": "socioVip-sin marca",
+					"name": "tc0003-socioVip-sin marca",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"\r",
 									"var jsonObject = pm.response.json();\r",
@@ -701,12 +1183,79 @@
 					"response": []
 				},
 				{
-					"name": "socioVip-faltan-datos-ic",
+					"name": "tc0004-socioVip-faltan-datos",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "socioVip"
+								},
+								{
+									"key": "ic",
+									"value": "1500282819",
+									"disabled": true
+								},
+								{
+									"key": "contrato",
+									"value": "606808158",
+									"disabled": true
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0005-socioVip-faltan-datos-ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(500);\r",
 									"\r",
 									"var jsonObject = pm.response.json();\r",
@@ -762,7 +1311,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&contrato=609254846&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -783,7 +1332,108 @@
 								},
 								{
 									"key": "contrato",
-									"value": "607854463",
+									"value": "609254846"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0006-socioVip-faltan-datos-contrato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const requestEsVip = {\r",
+									"\turl: 'http://desaesb.osde.ar:8080/services/SocioMarcas/marcas?marcas=socioVip&ic=1002425411&contrato=607854463&orden=01&appName=SOPORTE', \r",
+									"    method: 'GET',\r",
+									"\theader: 'Content-Type: application/jsson;charset=UTF-8',\r",
+									"\tbody: {\r",
+									"\t\tmode: 'Raw',\r",
+									"\t\tRaw: JSON.stringify([{\"ic\":\"10024254sdsds\",\"marcas\":[{\"socioVip\":{\"esVip\":true}}]}])\r",
+									"\t}\r",
+									"};\r",
+									"\r",
+									"console.log(requestEsVip);\r",
+									"\r",
+									"pm.sendRequest(requestEsVip, function(err, res){\r",
+									"\tconsole.log(\"data: \", err ? err: res.json());\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic={{value}}&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "socioVip"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "609254846",
 									"disabled": true
 								},
 								{
@@ -798,6 +1448,131 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "tc0007-socioVip-faltan-invalid-ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "socioVip"
+								},
+								{
+									"key": "ic",
+									"value": "1500282819",
+									"disabled": true
+								},
+								{
+									"key": "contrato",
+									"value": "606808158",
+									"disabled": true
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0008-socioVip-faltan-invalid-contrato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?ic=1002125456&orden=01&appName=SOPORTE&marcas=anticonceptivos",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "ic",
+									"value": "1002125456"
+								},
+								{
+									"key": "contrato",
+									"value": "606808158",
+									"disabled": true
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								},
+								{
+									"key": "marcas",
+									"value": "anticonceptivos"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -805,18 +1580,22 @@
 			"name": "contactoTelemarketing",
 			"item": [
 				{
-					"name": "contactoTelemarketing",
+					"name": "tc0001-contactoTelemarketing",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
 									"var marca = jsonObject[0][\"marcas\"][0][\"contactoTelemarketing\"];\r",
 									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"2000333510\";\r",
+									"//tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"2000333510\";\r",
 									"tests[\"Verificar marcaContacto\"] = marca[\"marcaContacto\"] == true;\r",
 									""
 								],
@@ -828,7 +1607,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=contactoTelemarketing&contrato=612138673&orden=01&ic={{value}}&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=contactoTelemarketing&contrato=612138673&orden=01&ic=2000333510&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -852,6 +1631,69 @@
 								},
 								{
 									"key": "ic",
+									"value": "2000333510"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0002-contactoTelemarketing-sin-marca",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"contactoTelemarketing\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"2000391672\";\r",
+									"tests[\"Verificar marcaContacto\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marc\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=contactoTelemarketing&contrato=612530573&orden=01&ic={{value}}&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "contactoTelemarketing"
+								},
+								{
+									"key": "contrato",
+									"value": "612530573"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "ic",
 									"value": "{{value}}"
 								},
 								{
@@ -864,12 +1706,16 @@
 					"response": []
 				},
 				{
-					"name": "contactoTelemarketing-negativo",
+					"name": "tc0003-contactoTelemarketing-ic-invalido",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -887,7 +1733,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=contactoTelemarketing&contrato=232213001&orden=01&ic=232213001041&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=contactoTelemarketing&contrato=232213001&orden=01&ic={{value}}&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -911,7 +1757,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "232213001041"
+									"value": "{{value}}"
 								},
 								{
 									"key": "appName",
@@ -923,12 +1769,16 @@
 					"response": []
 				},
 				{
-					"name": "contactoTelemarketing-faltan-datos",
+					"name": "tc0004-contactoTelemarketing-faltan-datos",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(500);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -979,24 +1829,181 @@
 					},
 					"response": []
 				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonObject = pm.response.json();",
+							"",
+							"var marca = jsonObject[0][\"marcas\"][0][\"contactoTelemarketing\"];",
+							"",
+							"//tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"2000333510\";",
+							"tests[\"Verificar marcaContacto\"] = marca[\"marcaContacto\"] == false;",
+							""
+						]
+					}
+				}
 			]
 		},
 		{
 			"name": "credencialDigital",
 			"item": [
 				{
-					"name": "credencialDigital",
+					"name": "tc0001-credencialDigital",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
 									"var marca = jsonObject[0][\"marcas\"][0][\"credencialDigital\"];\r",
 									"\r",
 									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"2000667588\";\r",
+									"tests[\"Verificar credencialDigital\"] = marca.contrato == \"614289032\";\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&contrato=612530573&orden=01&ic=61253057301&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "credencialDigital"
+								},
+								{
+									"key": "contrato",
+									"value": "612530573"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "ic",
+									"value": "61253057301"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0002-credencialDigital-sin-marca",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"credencialDigital\"];\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"23221300104\";\r",
+									"tests[\"Verificar mensaje\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&ic={{value}}&contrato=232213001&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "credencialDigital"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "232213001"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0003-credencialDigital-invalid-ic",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"credencialDigital\"];\r",
+									"console.log(marca);\r",
+									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"dddddaaaa1\";//actualmente no verifica ic \r",
 									"tests[\"Verificar credencialDigital\"] = marca.contrato == \"614289032\";\r",
 									"\r",
 									""
@@ -1045,131 +2052,16 @@
 					"response": []
 				},
 				{
-					"name": "credencialDigital-sin-marca",
+					"name": "tc0004-credencialDigital-faltan-datos",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
 									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"credencialDigital\"];\r",
-									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"23221300104\";\r",
-									"tests[\"Verificar mensaje\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&ic=23221300104&contrato=232213001&orden=01&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "credencialDigital"
-								},
-								{
-									"key": "ic",
-									"value": "23221300104"
-								},
-								{
-									"key": "contrato",
-									"value": "232213001"
-								},
-								{
-									"key": "orden",
-									"value": "01"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "credencialDigital-invalid-ic",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
-									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"credencialDigital\"];\r",
-									"console.log(marca);\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"dddddaaaa1\";//actualmente no verifica ic \r",
-									"tests[\"Verificar credencialDigital\"] = marca.contrato == \"614289032\";\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&contrato=614289032&orden=01&ic=dddddaaaa1&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "credencialDigital"
-								},
-								{
-									"key": "contrato",
-									"value": "614289032"
-								},
-								{
-									"key": "orden",
-									"value": "01"
-								},
-								{
-									"key": "ic",
-									"value": "dddddaaaa1"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "credencialDigital-faltan-datos",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
 									"eval(pm.variables.get(\"resStatus\"))(500);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -1184,7 +2076,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&contrato=614289032&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1200,7 +2092,8 @@
 								},
 								{
 									"key": "contrato",
-									"value": "614289032"
+									"value": "614289032",
+									"disabled": true
 								},
 								{
 									"key": "orden",
@@ -1226,12 +2119,16 @@
 			"name": "atencionDomiciliaria",
 			"item": [
 				{
-					"name": "atencionDomiciliaria",
+					"name": "tc0001-atencionDomiciliaria",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -1274,6 +2171,147 @@
 							"urlencoded": []
 						},
 						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1002245123&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "atencionDomiciliaria"
+								},
+								{
+									"key": "ic",
+									"value": "1002245123"
+								},
+								{
+									"key": "contrato",
+									"value": "7211210"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "atencionDomiciliaria",
+									"value": "filial:60,fechaInternacion:12072021"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0002-atencionDomiciliaria-sin marca",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0].atencionDomiciliaria;\r",
+									"\r",
+									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"1500282819\";\r",
+									"tests[\"Verificar mensaje\"] = marca.mensaje == \"El socio no posee informacion para esta marca\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic={{value}}&contrato=606808158&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "atencionDomiciliaria"
+								},
+								{
+									"key": "ic",
+									"value": "{{value}}"
+								},
+								{
+									"key": "contrato",
+									"value": "606808158"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "atencionDomiciliaria",
+									"value": "filial:60,fechaInternacion:12072021"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0003-atencionDomiciliaria-ic-invalido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marca = jsonObject[0][\"marcas\"][0][\"atencionDomiciliaria\"];\r",
+									"\r",
+									"tests[\"Verificar err\"] = marca.error == \"No se puede recuperar la marca - Error en el Provider\";"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
 							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic={{value}}&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
@@ -1314,213 +2352,16 @@
 					"response": []
 				},
 				{
-					"name": "atencionDomiciliaria-sin marca",
+					"name": "tc0004-atencionDomiciliaria-faltan-datos-contrato",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
 									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"atencionDomiciliaria\"];\r",
-									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"1500282819\";\r",
-									"tests[\"Verificar mensaje\"] = marca[\"mensaje\"] == \"El socio no posee informacion para esta marca\";\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1500282819&contrato=606808158&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "atencionDomiciliaria"
-								},
-								{
-									"key": "ic",
-									"value": "1500282819"
-								},
-								{
-									"key": "contrato",
-									"value": "606808158"
-								},
-								{
-									"key": "orden",
-									"value": "01"
-								},
-								{
-									"key": "atencionDomiciliaria",
-									"value": "filial:60,fechaInternacion:12072021"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atencionDomiciliaria-contrato-alfanumerico",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(500);\r",
-									"var jsonObject = pm.response.json();\r",
-									"\r",
-									"tests[\"Verificar err\"] = jsonObject[\"error\"]== \"\";"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=&contrato=ABCD1234&orden=&atencionDomiciliaria=filial:60,fechaInternacion:2021&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "atencionDomiciliaria"
-								},
-								{
-									"key": "ic",
-									"value": ""
-								},
-								{
-									"key": "contrato",
-									"value": "ABCD1234"
-								},
-								{
-									"key": "orden",
-									"value": ""
-								},
-								{
-									"key": "atencionDomiciliaria",
-									"value": "filial:60,fechaInternacion:2021"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atencionDomiciliaria-contrato-invalido",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
-									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"atencionDomiciliaria\"];\r",
-									"\r",
-									"tests[\"Verificar err\"] = marca[\"error\"]== \"No se puede recuperar la marca - Error en el Provider\";"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1002425411&contrato=11aaa11aa&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "atencionDomiciliaria"
-								},
-								{
-									"key": "ic",
-									"value": "1002425411"
-								},
-								{
-									"key": "contrato",
-									"value": "11aaa11aa"
-								},
-								{
-									"key": "orden",
-									"value": "01"
-								},
-								{
-									"key": "atencionDomiciliaria",
-									"value": "filial:60,fechaInternacion:12072021"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atencionDomiciliaria-falta-de-datos",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
 									"eval(pm.variables.get(\"resStatus\"))(500);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -1534,7 +2375,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1002425411&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic={{value}}&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1550,21 +2391,21 @@
 								},
 								{
 									"key": "ic",
-									"value": "1002425411"
+									"value": "{{value}}"
 								},
 								{
 									"key": "contrato",
-									"value": "11aaa11aa",
+									"value": "",
 									"disabled": true
 								},
 								{
 									"key": "orden",
-									"value": "01",
+									"value": "",
 									"disabled": true
 								},
 								{
 									"key": "atencionDomiciliaria",
-									"value": "filial:60,fechaInternacion:12072021",
+									"value": "",
 									"disabled": true
 								},
 								{
@@ -1577,12 +2418,16 @@
 					"response": []
 				},
 				{
-					"name": "atencionDomiciliaria-fecha-invalida",
+					"name": "tc0005-atencionDomiciliaria-fecha-invalida",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -1622,7 +2467,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1002425411&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:22-12-2021&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1002425411&contrato=7211210&orden=01&atencionDomiciliaria={{value}}&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1650,7 +2495,7 @@
 								},
 								{
 									"key": "atencionDomiciliaria",
-									"value": "filial:60,fechaInternacion:22-12-2021"
+									"value": "{{value}}"
 								},
 								{
 									"key": "appName",
@@ -1694,23 +2539,32 @@
 			"name": "combinacion marcas",
 			"item": [
 				{
-					"name": "socioVip,celiaquia,credencialDigital",
+					"name": "tc0001-internacion,celiaquia,socioVip,atencionDomiciliaria",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"Falta casuistica\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
-									"var marcaSV = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
-									"var marcaCE = jsonObject[0][\"marcas\"][1][\"celiaquia\"];\r",
-									"var marcaCD = jsonObject[0][\"marcas\"][2][\"credencialDigital\"];\r",
+									"var marcaAD = jsonObject[0][\"marcas\"][0][\"atencionDomiciliaria\"];\r",
+									"var marcaIN = jsonObject[0][\"marcas\"][1][\"internacion\"];\r",
+									"var marcaSV = jsonObject[0][\"marcas\"][2][\"socioVip\"];\r",
+									"var marcaCE = jsonObject[0][\"marcas\"][3][\"celiaquia\"];\r",
 									"\r",
-									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"1002425411\";\r",
-									"tests[\"Verificar credencialDigital\"] = marcaCD[\"contrato\"] == \"614289032\";\r",
-									"tests[\"Verificar icCeliaquia\"] = marcaCE[\"ic\"] == \"1002425411\";\r",
-									"tests[\"Verificar socioVip\"] = marcaSV[\"esVip\"] == true;\r",
+									"\r",
+									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"1500476233\";\r",
+									"\r",
+									"tests[\"Verificar atencionDomiciliaria\"] = marcaAD.error == \"No se puede recuperar la marca - Error en el Provider\";\r",
+									"tests[\"Verificar internacion\"] = marcaIN.fechaInicioInternacion == \"2020-10-20T03:00:00.000Z\";//no posee fecha\r",
+									"tests[\"Verificar socioVip\"] = marcaSV.esVip == true;\r",
+									"tests[\"Verificar icCeliaquia\"] = marcaCE.ic = \"1500476233\";\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1721,7 +2575,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas={{key}}&ic={{value}}&contrato=614289032&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion,celiaquia,socioVip,atencionDomiciliaria&ic=1500476233&contrato=15004762&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1733,15 +2587,15 @@
 							"query": [
 								{
 									"key": "marcas",
-									"value": "{{key}}"
+									"value": "internacion,celiaquia,socioVip,atencionDomiciliaria"
 								},
 								{
 									"key": "ic",
-									"value": "{{value}}"
+									"value": "1500476233"
 								},
 								{
 									"key": "contrato",
-									"value": "614289032"
+									"value": "15004762"
 								},
 								{
 									"key": "orden",
@@ -1757,73 +2611,16 @@
 					"response": []
 				},
 				{
-					"name": "celiaquia,socioVip",
+					"name": "tc0002-atencionDomiciliaria,socioVip,celiaquia",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
-									"var jsonObject = pm.response.json();\r",
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
 									"\r",
-									"var marcaSV = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
-									"var marcaCE = jsonObject[0][\"marcas\"][1][\"celiaquia\"];\r",
-									"\r",
-									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"1002425411\";\r",
-									"tests[\"Verificar socioVip\"] = marcaSV[\"esVip\"] == true;\r",
-									"tests[\"Verificar icCeliaquia\"] = marcaCE[\"ic\"] == \"1002425411\";\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas={{key}}&ic={{value}}&contrato=607854463&orden=01&appName=SOPORTE",
-							"protocol": "http",
-							"host": [
-								"{{desa}}"
-							],
-							"path": [
-								"{{marcaSocio}}",
-								"marcas"
-							],
-							"query": [
-								{
-									"key": "marcas",
-									"value": "{{key}}"
-								},
-								{
-									"key": "ic",
-									"value": "{{value}}"
-								},
-								{
-									"key": "contrato",
-									"value": "607854463"
-								},
-								{
-									"key": "orden",
-									"value": "01"
-								},
-								{
-									"key": "appName",
-									"value": "SOPORTE"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "atencionDomiciliaria,socioVip,celiaquia",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
@@ -1845,7 +2642,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria,celiaquia,socioVip&ic={{value}}&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria,celiaquia,socioVip&ic=1002425411&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1861,7 +2658,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "{{value}}"
+									"value": "1002425411"
 								},
 								{
 									"key": "contrato",
@@ -1885,21 +2682,23 @@
 					"response": []
 				},
 				{
-					"name": "celiaquia,socioVip,internacion",
+					"name": "tc0003-celiaquia,socioVip",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
 									"eval(pm.variables.get(\"resStatus\"))(200);\r",
 									"var jsonObject = pm.response.json();\r",
-									"console.log(jsonObject)\r",
-									"var marcaIN = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
-									"var marcaSV = jsonObject[0][\"marcas\"][1][\"socioVip\"];\r",
-									"var marcaCE = jsonObject[0][\"marcas\"][2][\"celiaquia\"];\r",
+									"\r",
+									"var marcaSV = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
+									"var marcaCE = jsonObject[0][\"marcas\"][1][\"celiaquia\"];\r",
 									"\r",
 									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"1002425411\";\r",
-									"tests[\"Verificar icCredencialDigital\"] = marcaIN[\"fechaInicioInternacion\"] == \"2020-05-12T03:00:00.000Z\";\r",
 									"tests[\"Verificar socioVip\"] = marcaSV[\"esVip\"] == true;\r",
 									"tests[\"Verificar icCeliaquia\"] = marcaCE[\"ic\"] == \"1002425411\";\r",
 									""
@@ -1912,7 +2711,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas={{key}}&ic={{value}}&contrato=232213001&orden=04&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip,celiaquia&ic=1002425411&contrato=604029275&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1924,15 +2723,219 @@
 							"query": [
 								{
 									"key": "marcas",
-									"value": "{{key}}"
+									"value": "socioVip,celiaquia"
 								},
 								{
 									"key": "ic",
-									"value": "{{value}}"
+									"value": "1002425411"
 								},
 								{
 									"key": "contrato",
-									"value": "232213001"
+									"value": "604029275"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0004-celiaquia,socioVip,internacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"No muestra marca CD\r",
+									"No muestra marca Celiaquia\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marcaIN = jsonObject[0][\"marcas\"][0][\"internacion\"];\r",
+									"var marcaSV = jsonObject[0][\"marcas\"][1][\"socioVip\"];\r",
+									"var marcaCE = jsonObject[0][\"marcas\"][2][\"celiaquia\"];\r",
+									"\r",
+									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"1500476233\";\r",
+									"\r",
+									"tests[\"Verificar credencialDigital\"] = marcaIN[\"contrato\"] == \"610262431\"; \r",
+									"tests[\"Verificar socioVip\"] = marcaSV[\"esVip\"] == true;\r",
+									"tests[\"Verificar icCeliaquia\"] = marcaCE[\"ic\"] == \"1500476233\";\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia,socioVip,internacion&ic=1500476233&contrato=610262431&orden=04&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "celiaquia,socioVip,internacion"
+								},
+								{
+									"key": "ic",
+									"value": "1500476233"
+								},
+								{
+									"key": "contrato",
+									"value": "610262431"
+								},
+								{
+									"key": "orden",
+									"value": "04"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0005-telemarketing,socioVip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marcaSV = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
+									"var marcaCT = jsonObject[0][\"marcas\"][1][\"contactoTelemarketing\"];\r",
+									"\r",
+									"\r",
+									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"2000333510\";\r",
+									"\r",
+									"tests[\"Verificar contactoTelemarketing\"] = marcaCT[\"marcaContacto\"] == true;\r",
+									"tests[\"Verificar socioVip\"] = marcaSV[\"esVip\"] == true;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=contactoTelemarketing,socioVip&ic=2000333510&contrato=612138673&orden=01&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "contactoTelemarketing,socioVip"
+								},
+								{
+									"key": "ic",
+									"value": "2000333510"
+								},
+								{
+									"key": "contrato",
+									"value": "612138673"
+								},
+								{
+									"key": "orden",
+									"value": "01"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "tc0006-credencialDigital,celiaquia,socioVip",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"short description tc\r",
+									"No recibe arca de credencial digital\r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"var marcaSV = jsonObject[0][\"marcas\"][0][\"socioVip\"];\r",
+									"var marcaCE = jsonObject[0][\"marcas\"][1][\"celiaquia\"];\r",
+									"var marcaCD = jsonObject[0][\"marcas\"][2][\"credencialDigital\"];\r",
+									"\r",
+									"tests[\"Verificar ic\"] = jsonObject[0].ic == \"2000391672\";\r",
+									"tests[\"Verificar socioVip\"] = marcaSV[\"esVip\"] == true;\r",
+									"tests[\"Verificar icCeliaquia\"] = marcaCE[\"ic\"] == \"2000391672\";\r",
+									"//tests[\"Verificar icCredencialDigital\"] = marcaCD == \"2020-05-12T03:00:00.000Z\"; NO RECIBE MARCA\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip,celiaquia,credencialDigital&ic=2000391672&contrato=612530573&orden=04&appName=SOPORTE",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "socioVip,celiaquia,credencialDigital"
+								},
+								{
+									"key": "ic",
+									"value": "2000391672"
+								},
+								{
+									"key": "contrato",
+									"value": "612530573"
 								},
 								{
 									"key": "orden",
@@ -1956,19 +2959,7 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"/*var valueIc = data[\"value\"];",
-					"var valueIcTest = pm.environment.get(\"ic\");",
-					"",
-					"function getValue(valueData){",
-					"    if(valueData){",
-					"    console.log(\"dataCSV: \" ,valueIc)",
-					"    } else {",
-					"        console.log(\"static data testing\", valueIcTest)",
-					"    }",
-					"}",
-					"",
-					"getValue(valueIcTest);",
-					"*/"
+					""
 				]
 			}
 		},
