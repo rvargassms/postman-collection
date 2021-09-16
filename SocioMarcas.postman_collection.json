@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dad0844d-275c-427d-be93-26b52e0a7244",
+		"_postman_id": "71667108-e14e-4cca-9ebb-3c5ba74b1f63",
 		"name": "SocioMarcas",
 		"description": "#### Identificacion de marcas de socios:\n* celiaquia\n* internacion\n* socioVip\n* contactoTelemarketing\n* credencialDigital\n* atencionDomiciliaria\n* combiancion marcas",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -165,7 +165,7 @@
 									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
 									"\r",
 									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1500000911\";\r",
-									"tests[\"Verificar marcaFechaAlta\"] = marca.mensaje == \"El socio no posee informacion para esta marca\";\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -176,7 +176,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic={{value}}&contrato= &orden= &appName=SOPORTE",
+							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic={{value}}&contrato=612138673&orden= &appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -197,7 +197,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": " "
+									"value": "612138673"
 								},
 								{
 									"key": "orden",
@@ -232,7 +232,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic=1500000911&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic=1500000911&contrato={{value}}&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -252,8 +252,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": "",
-									"disabled": true
+									"value": "{{value}}"
 								},
 								{
 									"key": "orden",
@@ -276,14 +275,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"eval(pm.variables.get(\"resStatus\"))(200);\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
 									"var jsonObject = pm.response.json();\r",
 									"\r",
-									"var marca = jsonObject[0][\"marcas\"][0][\"celiaquia\"];\r",
-									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0][\"ic\"] == \"1500000911\";\r",
-									"tests[\"Verificar marcaFechaAlta\"] = marca.mensaje == \"El socio no posee informacion para esta marca\";\r",
-									""
+									"eval(pm.variables.get(\"faltanDatos\"));"
 								],
 								"type": "text/javascript"
 							}
@@ -293,7 +288,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&ic={{value}}&contrato= &orden= &appName=SOPORTE",
+							"raw": "http://{{desa}}/services/SocioMarcas/marcas?marcas=celiaquia&orden= &appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -310,11 +305,13 @@
 								},
 								{
 									"key": "ic",
-									"value": "{{value}}"
+									"value": "",
+									"disabled": true
 								},
 								{
 									"key": "contrato",
-									"value": " "
+									"value": " ",
+									"disabled": true
 								},
 								{
 									"key": "orden",
@@ -405,7 +402,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic={{value}}&orden=&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=celiaquia&ic={{value}}&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -424,13 +421,13 @@
 									"value": "{{value}}"
 								},
 								{
-									"key": "contrato",
-									"value": "604029275",
+									"key": "",
+									"value": "",
 									"disabled": true
 								},
 								{
 									"key": "orden",
-									"value": ""
+									"value": "01"
 								},
 								{
 									"key": "appName",
@@ -1147,7 +1144,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic=1500282819&contrato=606808158&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic={{value}}&contrato=606808158&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1163,7 +1160,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "1500282819"
+									"value": "{{value}}"
 								},
 								{
 									"key": "contrato",
@@ -1311,7 +1308,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&contrato=609254846&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&contrato={{value}}&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1332,7 +1329,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": "609254846"
+									"value": "{{value}}"
 								},
 								{
 									"key": "orden",
@@ -1450,7 +1447,7 @@
 					"response": []
 				},
 				{
-					"name": "tc0007-socioVip-faltan-invalid-ic",
+					"name": "tc0007-socioVip-invalid-ic",
 					"event": [
 						{
 							"listen": "test",
@@ -1491,7 +1488,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "1500282819",
+									"value": "{{value}}",
 									"disabled": true
 								},
 								{
@@ -1513,7 +1510,7 @@
 					"response": []
 				},
 				{
-					"name": "tc0008-socioVip-faltan-invalid-contrato",
+					"name": "tc0008-socioVip-invalid-contrato",
 					"event": [
 						{
 							"listen": "test",
@@ -1538,7 +1535,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?ic=1002125456&orden=01&appName=SOPORTE&marcas=anticonceptivos",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?ic=1002125456&contrato={{value}}&orden=01&appName=SOPORTE&marcas=anticonceptivos",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1554,8 +1551,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": "606808158",
-									"disabled": true
+									"value": "{{value}}"
 								},
 								{
 									"key": "orden",
@@ -1889,7 +1885,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&contrato=612530573&orden=01&ic=61253057301&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=credencialDigital&contrato=614289032&orden=01&ic=2000667588&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1905,7 +1901,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": "612530573"
+									"value": "614289032"
 								},
 								{
 									"key": "orden",
@@ -1913,7 +1909,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "61253057301"
+									"value": "2000667588"
 								},
 								{
 									"key": "appName",
