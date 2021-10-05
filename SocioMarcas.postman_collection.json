@@ -1131,6 +1131,71 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "tc0008-internacion-fecha-actual Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*\r",
+									"Marca internacion - fecha hasta mayor a actual  \r",
+									"    + 24/09/2021\r",
+									"    Comentarios: \r",
+									"*/\r",
+									"\r",
+									"eval(pm.variables.get(\"resStatus\"))(500);\r",
+									"var jsonObject = pm.response.json();\r",
+									"\r",
+									"eval(pm.variables.get(\"faltanDatos\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=internacion&ic=1002245123&contrato=232213001&orden=04&appName=SOPORTE&echaInternacion=04102021",
+							"protocol": "http",
+							"host": [
+								"{{desa}}"
+							],
+							"path": [
+								"{{marcaSocio}}",
+								"marcas"
+							],
+							"query": [
+								{
+									"key": "marcas",
+									"value": "internacion"
+								},
+								{
+									"key": "ic",
+									"value": "1002245123"
+								},
+								{
+									"key": "contrato",
+									"value": "232213001"
+								},
+								{
+									"key": "orden",
+									"value": "04"
+								},
+								{
+									"key": "appName",
+									"value": "SOPORTE"
+								},
+								{
+									"key": "echaInternacion",
+									"value": "04102021"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -1640,7 +1705,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic=1000531253&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic=61428903201&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1656,7 +1721,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "1000531253"
+									"value": "61428903201"
 								},
 								{
 									"key": "contrato",
@@ -1705,7 +1770,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic=abcdefg@&contrato=606808158&orden=01&appName=SOPORTE",
+							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=socioVip&ic=abcdefg@&contrato=614289032&orden=01&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
 								"{{desa}}"
@@ -1725,7 +1790,7 @@
 								},
 								{
 									"key": "contrato",
-									"value": "606808158"
+									"value": "614289032"
 								},
 								{
 									"key": "orden",
@@ -2469,7 +2534,7 @@
 									"\r",
 									"var marca = jsonObject[0][\"marcas\"][0][\"atencionDomiciliaria\"];\r",
 									"\r",
-									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"1002245123\";\r",
+									"tests[\"Verificar IC\"] = jsonObject[0].ic == \"1000652480\";\r",
 									"tests[\"Verificar marcaIc\"] = marca.ic == \"1000652480\";\r",
 									"tests[\"Verificar marcaFilial\"] = marca.filial == \"60\";\r",
 									"tests[\"Verificar marcaContrato\"] = marca.contrato == \"007211210\";\r",
@@ -2506,13 +2571,16 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "http://{{desa}}/{{marcaSocio}}/marcas?marcas=atencionDomiciliaria&ic=1002245123&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
+							"raw": "http://testesb.osde.ar/services/SocioMarcas/marcas?marcas=atencionDomiciliaria&ic=1000652480&contrato=7211210&orden=01&atencionDomiciliaria=filial:60,fechaInternacion:12072021&appName=SOPORTE",
 							"protocol": "http",
 							"host": [
-								"{{desa}}"
+								"testesb",
+								"osde",
+								"ar"
 							],
 							"path": [
-								"{{marcaSocio}}",
+								"services",
+								"SocioMarcas",
 								"marcas"
 							],
 							"query": [
@@ -2522,7 +2590,7 @@
 								},
 								{
 									"key": "ic",
-									"value": "1002245123"
+									"value": "1000652480"
 								},
 								{
 									"key": "contrato",
